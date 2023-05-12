@@ -7,6 +7,7 @@ function App() {
     const [perPage, setPerPage] = useState(12);
     const [duration, setDuration] = useState(1);
     const [distance, setDistance] = useState(50);
+    const [rentalPrices, setRentalPrices] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -17,7 +18,13 @@ function App() {
             .then((response) => response.json())
             .then((data) => {
                 if (data && Array.isArray(data)) {
+                    const prices = data.map((car) => {
+                        const timeComponent = car.pricePerDay * duration;
+                        const distanceComponent = car.pricePerKm * distance;
+                        return timeComponent + distanceComponent;
+                    });
                     setCars(data);
+                    setRentalPrices(prices);
                 } else {
                     console.log('Invalid response from server:', data);
                 }
@@ -79,6 +86,7 @@ function App() {
                             </p>
                             <p>Price per day: {car.pricePerDay}</p>
                             <p>Price per km: {car.pricePerKm}</p>
+                            <p>Rental price: {rentalPrices[index]}</p>
                         </div>
                     ))
                 ) : (
