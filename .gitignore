@@ -1,7 +1,9 @@
 .idea/
 .vscode/
+.cache/
 node_modules/
 build/
+dist/
 .DS_Store
 *.tgz
 my-app*
